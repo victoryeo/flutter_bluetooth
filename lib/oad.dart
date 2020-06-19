@@ -85,10 +85,10 @@ class BluetoothOffScreen extends StatelessWidget {
               color: Colors.white54,
             ),
             Text(
-              'Bluetooth Adapter is ${state.toString().substring(15)}.',
+              'Bluetooth Adapter is ${state.toString()}.',
               style: Theme.of(context)
                   .primaryTextTheme
-                  .subhead
+                  .subtitle1
                   .copyWith(color: Colors.white),
             ),
           ],
@@ -100,7 +100,7 @@ class BluetoothOffScreen extends StatelessWidget {
   void backToMainPage(context) {
     Navigator.pop(context);
   }
-}
+} //BluetoothOffScreen
 
 class FindDevicesScreen extends StatelessWidget {
   @override
