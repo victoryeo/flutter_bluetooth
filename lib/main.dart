@@ -5,30 +5,45 @@ import 'third.dart' as thirdpage;
 import 'fourth.dart' as fourthpage;
 import 'fifth.dart' as fifthpage;
 import 'oad.dart' as oadpage;
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'redux/reducers.dart';
+import 'redux/app_state.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  final _initialState = AppState(myAccount: 5);
+  final store = Store<AppState>(AppReducer, initialState: _initialState);
+
+  runApp(MyApp(store: store));
+}
 
 class MyApp extends StatelessWidget {
+  final Store<AppState> store;
+  MyApp({this.store});
+
   @override
   Widget build(BuildContext context) {
     Color hexToColor(String code) {
       return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
     }
 
-    return MaterialApp(
-      title: 'Btf App',
-      theme: new ThemeData(
-        primaryColor: hexToColor('#FD1124'),
+    return StoreProvider<AppState>(
+      store: store,
+      child: MaterialApp(
+        title: 'Btf App',
+        theme: new ThemeData(
+          primaryColor: hexToColor('#FD1124'),
+        ),
+        home: BtfApp(),
+        routes: <String, WidgetBuilder>{
+          "/firstpage": (BuildContext context)=> new firstpage.FirstPage(),
+          "/secondpage": (BuildContext context)=> new secondpage.SecondPage(),
+          "/thirdpage": (BuildContext context)=> new thirdpage.ThirdPage(),
+          "/fifthpage": (BuildContext context)=> new fifthpage.FifthPage(),
+          "/fourthpage": (BuildContext context)=> new fourthpage.FourthPage(),
+          "/oadpage": (BuildContext context)=> new oadpage.OADPage(),
+        },
       ),
-      home: BtfApp(),
-      routes: <String, WidgetBuilder>{
-        "/firstpage": (BuildContext context)=> new firstpage.FirstPage(),
-        "/secondpage": (BuildContext context)=> new secondpage.SecondPage(),
-        "/thirdpage": (BuildContext context)=> new thirdpage.ThirdPage(),
-        "/fifthpage": (BuildContext context)=> new fifthpage.FifthPage(),
-        "/fourthpage": (BuildContext context)=> new fourthpage.FourthPage(),
-        "/oadpage": (BuildContext context)=> new oadpage.OADPage(),
-      },
     );
   }
 }
